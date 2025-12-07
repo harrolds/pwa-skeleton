@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
+import { Button } from '../../shared/ui/Button';
 
 const HomeScreen: React.FC = () => {
   const { openNotifications, openSettings } = useNavigation();
@@ -10,12 +11,12 @@ const HomeScreen: React.FC = () => {
       <h2>Home</h2>
       <p>Dit is het standaard startscherm van de Skeleton v1 PWA.</p>
       <div>
-        <button type="button" onClick={openNotifications}>
+        <Button type="button" onClick={openNotifications}>
           Ga naar notificaties
-        </button>
-        <button type="button" onClick={openSettings}>
+        </Button>
+        <Button type="button" onClick={openSettings} variant="secondary">
           Ga naar instellingen
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -28,9 +29,9 @@ const NotificationsScreen: React.FC = () => {
     <div>
       <h2>Notifications</h2>
       <p>Hier komen notificaties en meldingen te staan.</p>
-      <button type="button" onClick={goBack}>
+      <Button type="button" onClick={goBack} variant="secondary">
         Terug
-      </button>
+      </Button>
     </div>
   );
 };
@@ -42,9 +43,9 @@ const SettingsScreen: React.FC = () => {
     <div>
       <h2>Settings</h2>
       <p>Hier kunnen basisinstellingen voor de app worden beheerd.</p>
-      <button type="button" onClick={goBack}>
+      <Button type="button" onClick={goBack} variant="secondary">
         Terug
-      </button>
+      </Button>
     </div>
   );
 };

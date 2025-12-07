@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppRoutes } from './router';
 import { useNavigation } from '../shared/lib/navigation/useNavigation';
+import { Button } from '../shared/ui/Button';
 
 export const AppShell: React.FC = () => {
   const { openNotifications, openSettings } = useNavigation();
@@ -13,22 +14,24 @@ export const AppShell: React.FC = () => {
           <span className="app-shell__title">PWA Skeleton</span>
         </div>
         <div className="app-shell__header-right">
-          <button
+          <Button
             type="button"
             onClick={openNotifications}
             aria-label="Notificaties"
             className="app-shell__icon-button"
+            variant="ghost"
           >
             🔔
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
             onClick={openSettings}
             aria-label="Instellingen"
             className="app-shell__icon-button"
+            variant="ghost"
           >
             ⚙️
-          </button>
+          </Button>
         </div>
       </header>
       <main className="app-shell__main">
