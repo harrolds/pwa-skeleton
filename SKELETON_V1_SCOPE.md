@@ -33,6 +33,8 @@ Alles in dit document is bindend voor ontwerp, implementatie en uitbreidingen to
 - Een centrale `AppShell`-component die alle schermen host, met vaste header en één hoofd-contentzone, expliciet ontworpen als “panel-ready” maar nog zonder geïmplementeerde panel-engine.
 - UX en layout strikt mobile/tablet-gericht in portrait mode; op desktop wordt uitsluitend een blokkerscherm met tekst en QR-code getoond en draait de PWA zelf niet.
 - Geen aparte landscape-layout; bij gebruik in landscape blijft de app portrait-georiënteerd en kan optioneel een “draai je toestel naar portret”-overlay getoond worden.
+- **Single root policy:** `src/main.tsx` rendert uitsluitend `AppRoot` uit `src/core`; er worden geen extra top-level rootcomponenten (`App.tsx`, `Root.tsx` e.d.) geïntroduceerd in andere mappen.
+
 
 ### 3.2 Home, routing en submenu’s
 
