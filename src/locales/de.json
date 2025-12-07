@@ -2,26 +2,33 @@
   "app.title": "PWA Skeleton",
   "app.header.notifications": "Benachrichtigungen",
   "app.header.settings": "Einstellungen",
-
   "home.title": "Startseite",
   "home.description": "Dies ist der Standard-Startbildschirm der PWA Skeleton v1.",
   "home.goToNotifications": "Zu den Benachrichtigungen",
   "home.goToSettings": "Zu den Einstellungen",
-
   "notifications.title": "Benachrichtigungen",
   "notifications.description": "Hier werden in die zukunft Benachrichtigungen und Meldungen angezeigt.",
   "notifications.back": "Zurück",
-
   "settings.title": "Einstellungen",
   "settings.description": "Hier können Grundeinstellungen der App verwaltet werden.",
   "settings.back": "Zurück",
-
   "common.back": "Zurück",
   "common.close": "Schließen",
-
   "desktopBlock.title": "PWA Skeleton v1",
   "desktopBlock.description.primary": "Diese PWA ist für die Nutzung auf einem Smartphone oder Tablet im Hochformat optimiert.",
-  "desktopBlock.description.secondary": "Öffne diese Seite auf deinem Telefon oder scanne den QR-Code unten, um die App zu benutzen.",
+  "desktopBlock.description.secondary": "Öffne diese Seite auf deinemTelefon oder scanne den QR-Code unten, um die App zu benutzen.",
   "desktopBlock.qr.placeholder": "QR-Code Platzhalter",
-  "desktopBlock.qr.label": "QR-Code"
+  "desktopBlock.qr.label": "QR-Code",
+  "notes.title": "Notizen",
+  "notes.description": "Behalte schnelle Gedanken, Ideen oder Aufgaben im Blick.",
+  "notes.countLabelPrefix": "Anzahl Notizen:",
+  "notes.form.titleLabel": "Titel",
+  "notes.form.titlePlaceholder": "Kurzer Titel",
+  "notes.form.contentLabel": "Notiz",
+  "notes.form.contentPlaceholder": "Deine Notiz...",
+  "notes.form.addButton": "Notiz speichern",
+  "notes.form.settingsCta": "Einstellungen öffnen",
+  "notes.list.ariaLabel": "Liste der gespeicherten Notizen",
+  "notes.item.untitled": "Ohne Titel",
+  "notes.emptyState": "Noch keine Notizen gespeichert."
 }

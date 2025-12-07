@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { Button } from '../../shared/ui/Button';
 import { useI18n } from '../../shared/lib/i18n';
+import { NotesModule } from '../../modules/notes/NotesModule';
 
 const HomeScreen: React.FC = () => {
   const { openNotifications, openSettings } = useNavigation();
@@ -20,6 +21,7 @@ const HomeScreen: React.FC = () => {
           {t('home.goToSettings')}
         </Button>
       </div>
+      <NotesModule />
     </div>
   );
 };
@@ -32,8 +34,8 @@ const NotificationsScreen: React.FC = () => {
     <div>
       <h2>{t('notifications.title')}</h2>
       <p>{t('notifications.description')}</p>
-      <Button type="button" onClick={goBack} variant="secondary">
-        {t('common.back')}
+      <Button type="button" onClick={goBack}>
+        {t('notifications.back')}
       </Button>
     </div>
   );
@@ -47,8 +49,8 @@ const SettingsScreen: React.FC = () => {
     <div>
       <h2>{t('settings.title')}</h2>
       <p>{t('settings.description')}</p>
-      <Button type="button" onClick={goBack} variant="secondary">
-        {t('common.back')}
+      <Button type="button" onClick={goBack}>
+        {t('settings.back')}
       </Button>
     </div>
   );
