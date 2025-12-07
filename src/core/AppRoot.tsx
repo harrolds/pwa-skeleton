@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { AppShell } from './AppShell';
+import { I18nProvider, useI18n } from '../shared/lib/i18n';
 
 const DESKTOP_MIN_WIDTH = 1024;
 
@@ -27,6 +28,8 @@ const useDesktopBlock = (): boolean => {
 };
 
 const DesktopBlockScreen: React.FC = () => {
+  const { t } = useI18n();
+
   return (
     <div
       style={{
@@ -38,15 +41,15 @@ const DesktopBlockScreen: React.FC = () => {
       }}
     >
       <div style={{ maxWidth: 480, textAlign: 'center' }}>
-        <h1 style={{ marginBottom: '0.75rem' }}>PWA Skeleton v1</h1>
+        <h1 style={{ marginBottom: '0.75rem' }}>{t('desktopBlock.title')}</h1>
         <p style={{ marginBottom: '0.75rem' }}>
-          Deze PWA is geoptimaliseerd voor gebruik op een mobiel toestel of tablet in portretstand.
+          {t('desktopBlock.description.primary')}
         </p>
         <p style={{ marginBottom: '1.25rem' }}>
-          Open deze pagina op je telefoon of scan de QR-code hieronder om de app te gebruiken.
+          {t('desktopBlock.description.secondary')}
         </p>
         <div
-          aria-label="QR-code placeholder"
+          aria-label={t('desktopBlock.qr.placeholder')}
           style={{
             width: 160,
             height: 160,
@@ -59,7 +62,7 @@ const DesktopBlockScreen: React.FC = () => {
             fontSize: 12,
           }}
         >
-          QR-code
+          {t('desktopBlock.qr.label')}
         </div>
       </div>
     </div>
@@ -70,12 +73,18 @@ export const AppRoot: React.FC = () => {
   const isDesktopBlocked = useDesktopBlock();
 
   if (isDesktopBlocked) {
-    return <DesktopBlockScreen />;
+    return (
+      <I18nProvider>
+        <DesktopBlockScreen />
+      </I18nProvider>
+    );
   }
 
   return (
-    <BrowserRouter>
-      <AppShell />
-    </BrowserRouter>
+    <I18nProvider>
+      <BrowserRouter>
+        <AppShell />
+      </BrowserRouter>
+    </I18nProvider>
   );
 };

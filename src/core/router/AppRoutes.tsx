@@ -2,20 +2,22 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { Button } from '../../shared/ui/Button';
+import { useI18n } from '../../shared/lib/i18n';
 
 const HomeScreen: React.FC = () => {
   const { openNotifications, openSettings } = useNavigation();
+  const { t } = useI18n();
 
   return (
     <div>
-      <h2>Home</h2>
-      <p>Dit is het standaard startscherm van de Skeleton v1 PWA.</p>
+      <h2>{t('home.title')}</h2>
+      <p>{t('home.description')}</p>
       <div>
         <Button type="button" onClick={openNotifications}>
-          Ga naar notificaties
+          {t('home.goToNotifications')}
         </Button>
         <Button type="button" onClick={openSettings} variant="secondary">
-          Ga naar instellingen
+          {t('home.goToSettings')}
         </Button>
       </div>
     </div>
@@ -24,13 +26,14 @@ const HomeScreen: React.FC = () => {
 
 const NotificationsScreen: React.FC = () => {
   const { goBack } = useNavigation();
+  const { t } = useI18n();
 
   return (
     <div>
-      <h2>Notifications</h2>
-      <p>Hier komen notificaties en meldingen te staan.</p>
+      <h2>{t('notifications.title')}</h2>
+      <p>{t('notifications.description')}</p>
       <Button type="button" onClick={goBack} variant="secondary">
-        Terug
+        {t('common.back')}
       </Button>
     </div>
   );
@@ -38,13 +41,14 @@ const NotificationsScreen: React.FC = () => {
 
 const SettingsScreen: React.FC = () => {
   const { goBack } = useNavigation();
+  const { t } = useI18n();
 
   return (
     <div>
-      <h2>Settings</h2>
-      <p>Hier kunnen basisinstellingen voor de app worden beheerd.</p>
+      <h2>{t('settings.title')}</h2>
+      <p>{t('settings.description')}</p>
       <Button type="button" onClick={goBack} variant="secondary">
-        Terug
+        {t('common.back')}
       </Button>
     </div>
   );

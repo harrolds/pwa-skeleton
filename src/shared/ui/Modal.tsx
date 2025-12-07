@@ -2,6 +2,7 @@ import React from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import { useTheme } from '../../core/theme/tokens';
 import { Button } from './Button';
+import { useI18n } from '../lib/i18n';
 
 export interface ModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ export interface ModalProps {
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
   const theme = useTheme();
   const { colors, radius, spacing, shadow, typography } = theme;
+  const { t } = useI18n();
 
   if (!isOpen) {
     return null;
@@ -54,7 +56,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
         {onClose ? (
           <div style={{ marginTop: spacing.lg, display: 'flex', justifyContent: 'flex-end' }}>
             <Button type="button" variant="secondary" onClick={onClose}>
-              Sluiten
+              {t('common.close')}
             </Button>
           </div>
         ) : null}
