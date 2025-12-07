@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { AppRoutes } from './router';
+import { useNavigation } from '../shared/lib/navigation/useNavigation';
 
 export const AppShell: React.FC = () => {
+  const { openNotifications, openSettings } = useNavigation();
+
   return (
     <div className="app-shell">
       <header className="app-shell__header">
@@ -11,20 +13,22 @@ export const AppShell: React.FC = () => {
           <span className="app-shell__title">PWA Skeleton</span>
         </div>
         <div className="app-shell__header-right">
-          <Link
-            to="/notifications"
+          <button
+            type="button"
+            onClick={openNotifications}
             aria-label="Notificaties"
             className="app-shell__icon-button"
           >
             🔔
-          </Link>
-          <Link
-            to="/settings"
+          </button>
+          <button
+            type="button"
+            onClick={openSettings}
             aria-label="Instellingen"
             className="app-shell__icon-button"
           >
             ⚙️
-          </Link>
+          </button>
         </div>
       </header>
       <main className="app-shell__main">
