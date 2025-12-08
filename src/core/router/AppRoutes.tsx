@@ -3,25 +3,27 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { Button } from '../../shared/ui/Button';
 import { useI18n } from '../../shared/lib/i18n';
-import { NotesModule } from '../../modules/notes/NotesModule';
+import { WidgetHost } from '../home/WidgetHost';
 
 const HomeScreen: React.FC = () => {
   const { openNotifications, openSettings } = useNavigation();
   const { t } = useI18n();
 
   return (
-    <div>
-      <h2>{t('home.title')}</h2>
-      <p>{t('home.description')}</p>
-      <div>
-        <Button type="button" onClick={openNotifications}>
-          {t('home.goToNotifications')}
-        </Button>
-        <Button type="button" onClick={openSettings} variant="secondary">
-          {t('home.goToSettings')}
-        </Button>
-      </div>
-      <NotesModule />
+    <div className="home-screen">
+      <section className="home-screen__intro">
+        <h2>{t('home.title')}</h2>
+        <p>{t('home.description')}</p>
+        <div className="home-screen__actions">
+          <Button type="button" onClick={openNotifications}>
+            {t('home.goToNotifications')}
+          </Button>
+          <Button type="button" onClick={openSettings} variant="secondary">
+            {t('home.goToSettings')}
+          </Button>
+        </div>
+      </section>
+      <WidgetHost />
     </div>
   );
 };
