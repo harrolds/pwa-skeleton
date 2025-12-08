@@ -1,0 +1,51 @@
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { footerMenu } from '../config/appConfig';
+import { useNavigation } from '../shared/lib/navigation/useNavigation';
+import { useI18n } from '../shared/lib/i18n';
+import { Button } from '../shared/ui/Button';
+
+export const AppFooter: React.FC = () => {
+  const location = useLocation();
+  const { goTo } = useNavigation();
+  const { t } = useI18n();
+
+  const getIconSymbol = (icon: string): string => {
+    switch (icon) {
+      case 'home':
+        return '🏠';
+      case 'notifications':
+        return '🔔';
+      case 'settings':
+        return '⚙️';
+      default:
+        return '•';
+    }
+  };
+
+  return (
+    <footer className="app-shell__footer" aria-label={t('app.footer.navigation')}>
+      <nav className="app-shell__footer-nav">
+        {footerMenu.map((item) => {
+          const isActive = location.pathname === item.route;
+
+          return (
+            <Button
+              key={item.id}
+              type="button"
+              variant={isActive ? 'secondary' : 'ghost'}
+              className="app-shell__footer-nav-item"
+              aria-current={isActive ? 'page' : undefined}
+              onClick={() => goTo(item.route)}
+            >
+              <span className="app-shell__footer-nav-icon" aria-hidden="true">
+                {getIconSymbol(item.icon)}
+              </span>
+              <span className="app-shell__footer-nav-label">{t(item.labelKey)}</span>
+            </Button>
+          );
+        })}
+      </nav>
+    </footer>
+  );
+};

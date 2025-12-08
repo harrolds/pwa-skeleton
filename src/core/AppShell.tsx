@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppRoutes } from './router';
+import { AppFooter } from './AppFooter';
 import { useNavigation } from '../shared/lib/navigation/useNavigation';
 import { Button } from '../shared/ui/Button';
 import { useI18n } from '../shared/lib/i18n';
@@ -39,6 +40,7 @@ export const AppShell: React.FC = () => {
       <main className="app-shell__main">
         <AppRoutes />
       </main>
+      <AppFooter />
     </div>
   );
 };
