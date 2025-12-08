@@ -30,7 +30,7 @@ const createNote = (title: string, content: string): Note => {
 
 export const NotesModule: React.FC = () => {
   const { t } = useI18n();
-  const { openSettings } = useNavigation();
+  const { openModuleSettings } = useNavigation();
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -110,7 +110,12 @@ export const NotesModule: React.FC = () => {
             <Button type="submit" variant="primary" fullWidth>
               {t('notes.form.addButton')}
             </Button>
-            <Button type="button" variant="secondary" fullWidth onClick={openSettings}>
+            <Button
+              type="button"
+              variant="secondary"
+              fullWidth
+              onClick={() => openModuleSettings('notes')}
+            >
               {t('notes.form.settingsCta')}
             </Button>
           </div>

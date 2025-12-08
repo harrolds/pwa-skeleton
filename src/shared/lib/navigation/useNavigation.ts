@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getModuleById } from '../modules';
 
 type NavigationTarget = 'home' | 'notifications' | 'settings' | string;
 
@@ -20,6 +21,7 @@ export interface NavigationApi {
   goTo: (target: NavigationTarget) => void;
   goBack: () => void;
   openSettings: () => void;
+  openModuleSettings: (moduleId: string) => void;
   openNotifications: () => void;
   openDetail: (entity: string, id: string | number) => void;
 }
@@ -42,6 +44,20 @@ export const useNavigation = (): NavigationApi => {
     navigate('/settings');
   }, [navigate]);
 
+  const openModuleSettings = useCallback(
+    (moduleId: string) => {
+      const moduleDefinition = getModuleById(moduleId);
+      if (moduleDefinition?.settingsRoute) {
+        navigate(moduleDefinition.settingsRoute);
+        return;
+      }
+
+      const encodedModuleId = encodeURIComponent(moduleId);
+      navigate(`/settings/${encodedModuleId}`);
+    },
+    [navigate]
+  );
+
   const openNotifications = useCallback(() => {
     navigate('/notifications');
   }, [navigate]);
@@ -59,6 +75,7 @@ export const useNavigation = (): NavigationApi => {
     goTo,
     goBack,
     openSettings,
+    openModuleSettings,
     openNotifications,
     openDetail,
   };

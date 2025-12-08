@@ -7,6 +7,7 @@ export interface ModuleDefinition {
   routeBase: string;
   hasHomeWidget: boolean;
   hasSettings: boolean;
+  settingsRoute?: string;
   component: ComponentType;
 }
 
@@ -17,6 +18,7 @@ export const moduleRegistry: ModuleDefinition[] = [
     routeBase: '/notes',
     hasHomeWidget: true,
     hasSettings: true,
+    settingsRoute: '/settings/notes',
     component: NotesModule,
   },
 ];
