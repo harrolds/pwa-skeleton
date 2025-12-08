@@ -1,0 +1,112 @@
+/* Globale basis: alles in de viewport, geen margins, voorspelbare box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Shell: ruimte reserveren voor fixed header + footer */
+.app-shell {
+  min-height: 100vh;
+  /* deze waardes moeten exact matchen met header/footer-hoogte */
+  padding-top: 56px;    /* header-hoogte */
+  padding-bottom: 64px; /* footer-hoogte */
+}
+
+/* HEADER – altijd zichtbaar bovenaan, content in één rij gecentreerd */
+.app-shell__header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e4e4e7;
+  background-color: #ffffff;
+}
+
+/* 3 kolommen in de header */
+.app-shell__header-left,
+.app-shell__header-center,
+.app-shell__header-right {
+  display: flex;
+  align-items: center;
+}
+
+.app-shell__header-left {
+  flex: 0 0 48px; /* placeholder links, blijft klein */
+  padding-left: 0.75rem;
+}
+
+.app-shell__header-center {
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+.app-shell__header-right {
+  flex: 0 0 auto;
+  gap: 0.25rem;
+  padding-right: 0.75rem;
+}
+
+.app-shell__title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* MAIN – gewoon flow binnen .app-shell, padding vangt header/footer af */
+.app-shell__main {
+  padding: 0.75rem 1rem 0;
+}
+
+/* FOOTER – altijd zichtbaar onderaan */
+.app-shell__footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #e4e4e7;
+  background-color: #ffffff;
+}
+
+/* Footer-navigatie over volledige breedte */
+.app-shell__footer-nav {
+  display: flex;
+  width: 100%;
+}
+
+/* Elk item neemt gelijke breedte in; Button zelf is inline-flex (oké) */
+.app-shell__footer-nav-item {
+  flex: 1 1 0;
+  justify-content: center;
+}
+
+/* Alleen iconen tonen in footer, tekst verbergen */
+.app-shell__footer-nav-label {
+  display: none;
+}
+
+/* Icon-formatting */
+.app-shell__footer-nav-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* Safety-net tegen mini-overflows in breedte */
+body {
+  overflow-x: hidden;
+}

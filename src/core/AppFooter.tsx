@@ -14,6 +14,8 @@ export const AppFooter: React.FC = () => {
     switch (icon) {
       case 'home':
         return '🏠';
+      case 'notes':
+        return '📝';
       case 'notifications':
         return '🔔';
       case 'settings':
@@ -36,12 +38,12 @@ export const AppFooter: React.FC = () => {
               variant={isActive ? 'secondary' : 'ghost'}
               className="app-shell__footer-nav-item"
               aria-current={isActive ? 'page' : undefined}
+              aria-label={t(item.labelKey)}
               onClick={() => goTo(item.route)}
             >
               <span className="app-shell__footer-nav-icon" aria-hidden="true">
                 {getIconSymbol(item.icon)}
               </span>
-              <span className="app-shell__footer-nav-label">{t(item.labelKey)}</span>
             </Button>
           );
         })}

@@ -3,6 +3,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { AppShell } from './AppShell';
 import { AppErrorBoundary } from './AppErrorBoundary';
 import { I18nProvider, useI18n } from '../shared/lib/i18n';
+import '../styles/layout.css';
+
 
 const DESKTOP_MIN_WIDTH = 1024;
 
