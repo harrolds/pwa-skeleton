@@ -7,6 +7,7 @@ import { Button } from '../shared/ui/Button';
 import { useI18n } from '../shared/lib/i18n';
 import type { ScreenAction } from './screenConfig';
 import { getScreenConfigByPath } from '../config/navigation';
+import { NotificationsHost } from '../shared/lib/notifications';
 
 export const AppShell: React.FC = () => {
   const location = useLocation();
@@ -83,6 +84,7 @@ export const AppShell: React.FC = () => {
       <main className="app-shell__main">
         <AppRoutes />
       </main>
+      <NotificationsHost />
       <AppFooter />
     </div>
   );

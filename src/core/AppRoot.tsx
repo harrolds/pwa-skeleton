@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AppShell } from './AppShell';
 import { AppErrorBoundary } from './AppErrorBoundary';
 import { I18nProvider, useI18n } from '../shared/lib/i18n';
+import { NotificationsProvider } from '../shared/lib/notifications';
 import '../styles/layout.css';
 
 
@@ -76,9 +77,11 @@ export const AppRoot: React.FC = () => {
   return (
     <I18nProvider>
       <BrowserRouter>
-        <AppErrorBoundary>
-          <AppShell />
-        </AppErrorBoundary>
+        <NotificationsProvider>
+          <AppErrorBoundary>
+            <AppShell />
+          </AppErrorBoundary>
+        </NotificationsProvider>
       </BrowserRouter>
     </I18nProvider>
   );

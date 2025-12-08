@@ -3,9 +3,11 @@ import { Card } from '../../shared/ui/Card';
 import { TextInput } from '../../shared/ui/TextInput';
 import { Button } from '../../shared/ui/Button';
 import { useI18n } from '../../shared/lib/i18n';
+import { useNotifications } from '../../shared/lib/notifications';
 
 export const NotesSettings: React.FC = () => {
   const { t } = useI18n();
+  const { showToast } = useNotifications();
   const [autoFocusEnabled, setAutoFocusEnabled] = useState(true);
   const [defaultTitle, setDefaultTitle] = useState('');
 
@@ -15,6 +17,7 @@ export const NotesSettings: React.FC = () => {
         className="settings-section"
         onSubmit={(event) => {
           event.preventDefault();
+          showToast('notifications.notesSettingsSaved', { kind: 'success' });
         }}
       >
         <div>
