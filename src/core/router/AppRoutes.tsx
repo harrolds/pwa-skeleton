@@ -4,6 +4,7 @@ import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { Button } from '../../shared/ui/Button';
 import { useI18n } from '../../shared/lib/i18n';
 import { WidgetHost } from '../home/WidgetHost';
+import { moduleRegistry } from '../../config/moduleRegistry';
 
 const HomeScreen: React.FC = () => {
   const { openNotifications, openSettings } = useNavigation();
@@ -64,6 +65,16 @@ export const AppRoutes: React.FC = () => {
       <Route path="/" element={<HomeScreen />} />
       <Route path="/notifications" element={<NotificationsScreen />} />
       <Route path="/settings" element={<SettingsScreen />} />
+      {moduleRegistry.map((module) => {
+        const ModuleComponent = module.component;
+        return (
+          <Route
+            key={module.id}
+            path={module.routeBase}
+            element={<ModuleComponent />}
+          />
+        );
+      })}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

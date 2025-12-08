@@ -2,21 +2,12 @@ import React from 'react';
 import { homeWidgets } from '../../config/homeWidgets';
 import type { HomeWidgetConfig } from '../../config/homeWidgets';
 import { useI18n } from '../../shared/lib/i18n';
-import { NotesModule } from '../../modules/notes/NotesModule';
-
-const renderWidget = (widget: HomeWidgetConfig): React.ReactNode => {
-  switch (widget.moduleId) {
-    case 'notes':
-      return <NotesModule />;
-    default:
-      return null;
-  }
-};
+import { getModuleById } from '../../shared/lib/modules';
 
 export const WidgetHost: React.FC = () => {
   const { t } = useI18n();
 
-  const sortedWidgets = [...homeWidgets].sort((a, b) => {
+  const sortedWidgets: HomeWidgetConfig[] = [...homeWidgets].sort((a, b) => {
     const aPriority = typeof a.priority === 'number' ? a.priority : 0;
     const bPriority = typeof b.priority === 'number' ? b.priority : 0;
     return aPriority - bPriority;
@@ -32,11 +23,13 @@ export const WidgetHost: React.FC = () => {
       aria-label={t('home.widgets.ariaLabel')}
     >
       {sortedWidgets.map((widget) => {
-        const content = renderWidget(widget);
+        const moduleDefinition = getModuleById(widget.moduleId);
 
-        if (!content) {
+        if (!moduleDefinition || !moduleDefinition.hasHomeWidget) {
           return null;
         }
+
+        const ModuleComponent = moduleDefinition.component;
 
         const spanClass =
           widget.span === 2 ? ' home-widget-grid__item--span-2' : '';
@@ -45,9 +38,9 @@ export const WidgetHost: React.FC = () => {
           <section
             key={widget.id}
             className={`home-widget-grid__item${spanClass}`}
-            aria-label={t(widget.labelKey)}
+            aria-label={t(moduleDefinition.labelKey)}
           >
-            {content}
+            <ModuleComponent />
           </section>
         );
       })}
