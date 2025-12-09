@@ -9,6 +9,7 @@ import { List, ListItem } from '../../shared/ui/List';
 import { useI18n } from '../../shared/lib/i18n';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { getItems, setItems } from '../../shared/lib/storage';
+import { trackEvent } from '../../shared/lib/telemetry';
 
 interface Note {
   id: string;
@@ -54,6 +55,13 @@ export const NotesModule: React.FC = () => {
 
       setNotes(nextNotes);
       setItems<Note>(STORAGE_KEY, nextNotes);
+      trackEvent('notes_saved', {
+        id: nextNote.id,
+        titleLength: trimmedTitle.length,
+        contentLength: trimmedContent.length,
+        hasTitle: trimmedTitle.length > 0,
+        hasContent: trimmedContent.length > 0,
+      });
 
       setTitle('');
       setContent('');
