@@ -70,13 +70,17 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
     [removeToast]
   );
 
+  // The cleanup intentionally reads the latest timeoutsRef without re-running the effect.
+  /* eslint-disable react-hooks/exhaustive-deps */
   React.useEffect(() => {
     return () => {
-      Object.values(timeoutsRef.current).forEach((timeoutId) => {
+      const activeTimeouts = timeoutsRef.current;
+      Object.values(activeTimeouts).forEach((timeoutId) => {
         clearTimeout(timeoutId);
       });
     };
   }, []);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const value = React.useMemo<NotificationsContextValue>(
     () => ({
@@ -89,6 +93,7 @@ export const NotificationsProvider: React.FC<{ children: React.ReactNode }> = ({
   return <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useNotifications = (): NotificationsContextValue => {
   const context = React.useContext(NotificationsContext);
 

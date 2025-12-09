@@ -41,6 +41,7 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useI18n = (): I18nContextValue => {
   const context = useContext(I18nContext);
   if (!context) {
@@ -49,6 +50,7 @@ export const useI18n = (): I18nContextValue => {
   return context;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useTranslation = () => {
   const { t } = useI18n();
   return { t };

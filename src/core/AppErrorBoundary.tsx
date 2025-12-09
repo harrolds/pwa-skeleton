@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React from 'react';
 import { error as logError } from '../shared/lib/logging';
 import { useI18n } from '../shared/lib/i18n';
