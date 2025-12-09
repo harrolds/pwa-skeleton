@@ -7,6 +7,7 @@ import { Button } from '../../shared/ui/Button';
 import { Badge } from '../../shared/ui/Badge';
 import { List, ListItem } from '../../shared/ui/List';
 import { useI18n } from '../../shared/lib/i18n';
+import { validateRequired } from '../../shared/lib/forms';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { getItems, setItems } from '../../shared/lib/storage';
 import { trackEvent } from '../../shared/lib/telemetry';
@@ -46,7 +47,10 @@ export const NotesModule: React.FC = () => {
       const trimmedTitle = title.trim();
       const trimmedContent = content.trim();
 
-      if (!trimmedTitle && !trimmedContent) {
+      const hasTitle = validateRequired(trimmedTitle);
+      const hasContent = validateRequired(trimmedContent);
+
+      if (!hasTitle && !hasContent) {
         return;
       }
 
