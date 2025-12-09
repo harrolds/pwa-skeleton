@@ -19,6 +19,9 @@ Details over scope en randvoorwaarden staan in:
 
 - `SKELETON_V1_SCOPE.md`
 - `Skeleton_V1_Bouwpad.md`
+- `SKELETON_V2_SCOPE.md`
+- `Skeleton_V2_Bouwpad.md`
+- `MODULE_AUTHOR_GUIDE.md`
 
 ---
 
