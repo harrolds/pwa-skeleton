@@ -43,7 +43,7 @@ export const FormTemplate: React.FC = () => {
       setSubmitState('success');
       setTitle('');
       setDescription('');
-    } catch (error) {
+    } catch (_error) {
       // TIP: voeg hier logging/telemetry toe (logging.error, trackEvent, enz.).
       setSubmitState('error');
     } finally {
