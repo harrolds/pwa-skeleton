@@ -1,6 +1,7 @@
 import type React from 'react';
+import { APP_BRAND } from '../../config/appConfig';
 
-export const lightTheme = {
+const baseLightTheme = {
   colors: {
     primary: '#2563eb',
     secondary: '#64748b',
@@ -47,6 +48,14 @@ export const lightTheme = {
   shadow: {
     sm: '0 1px 2px rgba(15, 23, 42, 0.06)',
     md: '0 4px 10px rgba(15, 23, 42, 0.10)',
+  },
+} as const;
+
+export const lightTheme = {
+  ...baseLightTheme,
+  colors: {
+    ...baseLightTheme.colors,
+    primary: APP_BRAND.primaryColor || baseLightTheme.colors.primary,
   },
 } as const;
 

@@ -7,6 +7,7 @@ import { Button } from '../shared/ui/Button';
 import { useI18n } from '../shared/lib/i18n';
 import type { ScreenAction } from './screenConfig';
 import { getScreenConfigByPath } from '../config/navigation';
+import { APP_BRAND } from '../config/appConfig';
 import { NotificationsHost } from '../shared/lib/notifications';
 import { OfflineScreen } from './offline/OfflineScreen';
 
@@ -30,7 +31,9 @@ export const AppShell: React.FC = () => {
   }, []);
 
   const screenConfig = getScreenConfigByPath(location.pathname);
-  const titleKey = screenConfig?.titleKey ?? 'app.title';
+  const titleKey = screenConfig?.titleKey;
+  const appTitle = APP_BRAND.appName;
+  const title = titleKey ? t(titleKey) : appTitle;
 
   const handleActionClick = (action: ScreenAction) => {
     if (action.navigationTarget) {
@@ -83,7 +86,7 @@ export const AppShell: React.FC = () => {
       <header className="app-shell__header">
         <div className="app-shell__header-left" aria-hidden="true" />
         <div className="app-shell__header-center">
-          <span className="app-shell__title">{t(titleKey)}</span>
+          <span className="app-shell__title">{title}</span>
         </div>
         <div className="app-shell__header-right">
           {screenConfig?.actions?.map((action) => (

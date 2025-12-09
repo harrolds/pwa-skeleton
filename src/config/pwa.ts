@@ -1,23 +1,21 @@
 import {
-  APP_NAME,
-  APP_SHORT_NAME,
-  APP_DESCRIPTION,
+  APP_BRAND,
   THEME_COLOR,
   BACKGROUND_COLOR
 } from './appConfig';
 
 export const pwaManifest = {
-  name: APP_NAME,
-  short_name: APP_SHORT_NAME,
-  description: APP_DESCRIPTION,
-  theme_color: THEME_COLOR,
+  name: APP_BRAND.appName,
+  short_name: APP_BRAND.shortName,
+  description: APP_BRAND.description,
+  theme_color: APP_BRAND.primaryColor || THEME_COLOR,
   background_color: BACKGROUND_COLOR,
   display: 'standalone',
   start_url: '/',
   orientation: 'portrait',
   icons: [
     {
-      src: '/icons/pwa-192x192.png',
+      src: APP_BRAND.logoPath,
       sizes: '192x192',
       type: 'image/png'
     },
