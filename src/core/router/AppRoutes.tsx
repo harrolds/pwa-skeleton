@@ -8,6 +8,7 @@ import { moduleRegistry } from '../../config/moduleRegistry';
 import { SettingsLayout } from '../settings/SettingsLayout';
 import { GlobalSettingsScreen } from '../settings/GlobalSettingsScreen';
 import { ModuleSettingsScreen } from '../settings/ModuleSettingsScreen';
+import { OfflineScreen } from '../offline/OfflineScreen';
 
 const HomeScreen: React.FC = () => {
   const { openNotifications, openSettings } = useNavigation();
@@ -66,6 +67,7 @@ export const AppRoutes: React.FC = () => {
           />
         );
       })}
+      <Route path="/offline" element={<OfflineScreen />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
