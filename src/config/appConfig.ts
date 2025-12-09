@@ -4,6 +4,8 @@ export const APP_DESCRIPTION = 'Baseline PWA skeleton for the PWA Factory.';
 export const THEME_COLOR = '#111827';
 export const BACKGROUND_COLOR = '#000000';
 
+export const apiBaseUrl: string | undefined = undefined;
+
 export type FooterMenuItem = {
   id: string;
   route: string;

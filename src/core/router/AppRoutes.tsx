@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { Button } from '../../shared/ui/Button';
@@ -9,10 +9,26 @@ import { SettingsLayout } from '../settings/SettingsLayout';
 import { GlobalSettingsScreen } from '../settings/GlobalSettingsScreen';
 import { ModuleSettingsScreen } from '../settings/ModuleSettingsScreen';
 import { OfflineScreen } from '../offline/OfflineScreen';
+import { get } from '../../shared/lib/api';
 
 const HomeScreen: React.FC = () => {
   const { openNotifications, openSettings } = useNavigation();
   const { t } = useI18n();
+
+  useEffect(() => {
+    const fetchDemo = async (): Promise<void> => {
+      try {
+        const result = await get<{ ok?: boolean; message?: string; timestamp?: number }>(
+          '/mock/example-api.json'
+        );
+        console.debug('[home:api-demo]', result);
+      } catch (err) {
+        console.debug('[home:api-demo] request skipped', err);
+      }
+    };
+
+    void fetchDemo();
+  }, []);
 
   return (
     <div className="home-screen">
