@@ -5,12 +5,19 @@ import { useI18n } from '../../shared/lib/i18n';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { useThemeController } from '../theme/ThemeProvider';
 import { usePanels } from '../../shared/lib/panels';
+import { usePipeline, demoPipeline, type DemoPipelineOutput } from '../../shared/lib/pipeline';
 
 export const GlobalSettingsScreen: React.FC = () => {
   const { goBack } = useNavigation();
   const { t } = useI18n();
   const { preference, resolvedMode, setPreference } = useThemeController();
   const { openLeftPanel, openBottomSheet } = usePanels();
+  const {
+    run: runDemoPipeline,
+    lastJob: lastDemoJob,
+    isRunning: isDemoRunning,
+    error: demoError,
+  } = usePipeline<{ refresh?: boolean }, DemoPipelineOutput>(demoPipeline);
 
   const themeOptions: Array<{ value: 'system' | 'light' | 'dark'; label: string }> = [
     { value: 'system', label: t('settings.theme.system') },
@@ -69,6 +76,42 @@ export const GlobalSettingsScreen: React.FC = () => {
             })}
           </p>
         </div>
+      </Card>
+
+      <Card>
+        <section className="settings-section">
+          <h2 className="settings-section__title">{t('settings.pipelineDemo.title')}</h2>
+          <p className="settings-section__description">{t('settings.pipelineDemo.description')}</p>
+
+          <div className="settings-section__row">
+            <Button type="button" onClick={() => runDemoPipeline({ refresh: true })} disabled={isDemoRunning}>
+              {isDemoRunning ? t('settings.pipelineDemo.buttonRunning') : t('settings.pipelineDemo.buttonLabel')}
+            </Button>
+          </div>
+
+          {demoError && (
+            <p className="settings-section__error">
+              {t('settings.pipelineDemo.errorPrefix')} {demoError}
+            </p>
+          )}
+
+          {lastDemoJob?.result && (
+            <div className="settings-section__result">
+              <p>
+                {t('settings.pipelineDemo.resultMessage')}{' '}
+                <strong>{lastDemoJob.result.uppercasedMessage}</strong>
+              </p>
+              <p>
+                {t('settings.pipelineDemo.resultTimestamp')}{' '}
+                <code>{lastDemoJob.result.timestamp}</code>
+              </p>
+              <p>
+                {t('settings.pipelineDemo.resultStatus')}{' '}
+                <code>{lastDemoJob.status}</code>
+              </p>
+            </div>
+          )}
+        </section>
       </Card>
     </>
   );
