@@ -7,6 +7,7 @@ import { useThemeController } from '../theme/ThemeProvider';
 import { usePanels } from '../../shared/lib/panels';
 import { usePipeline, demoPipeline, type DemoPipelineOutput } from '../../shared/lib/pipeline';
 import { runAiTask, type AiRequest, type AiResult } from '../../shared/lib/ai';
+import { isTelemetryEnabled, setTelemetryEnabled as setTelemetryEnabledFlag } from '../../shared/lib/telemetry';
 
 export const GlobalSettingsScreen: React.FC = () => {
   const { goBack } = useNavigation();
@@ -23,6 +24,7 @@ export const GlobalSettingsScreen: React.FC = () => {
   const [aiResult, setAiResult] = useState<AiResult | undefined>(undefined);
   const [isAiRunning, setIsAiRunning] = useState(false);
   const [aiError, setAiError] = useState<string | undefined>(undefined);
+  const [telemetryEnabled, setTelemetryEnabled] = useState<boolean>(isTelemetryEnabled());
 
   const themeOptions: Array<{ value: 'system' | 'light' | 'dark'; label: string }> = [
     { value: 'system', label: t('settings.theme.system') },
@@ -84,6 +86,26 @@ export const GlobalSettingsScreen: React.FC = () => {
       </Card>
 
       <Card>
+        <section className="settings-section">
+          <h2 className="settings-section__title">{t('settings.telemetry.title')}</h2>
+          <p className="settings-section__description">{t('settings.telemetry.description')}</p>
+
+          <div className="settings-section__row">
+            <label className="settings-checkbox">
+              <input
+                type="checkbox"
+                checked={telemetryEnabled}
+                onChange={(event) => {
+                  const enabled = event.target.checked;
+                  setTelemetryEnabled(enabled);
+                  setTelemetryEnabledFlag(enabled);
+                }}
+              />
+              <span>{t('settings.telemetry.toggleLabel')}</span>
+            </label>
+          </div>
+        </section>
+
         <section className="settings-section">
           <h2 className="settings-section__title">{t('settings.pipelineDemo.title')}</h2>
           <p className="settings-section__description">{t('settings.pipelineDemo.description')}</p>

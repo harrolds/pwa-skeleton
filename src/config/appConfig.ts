@@ -48,3 +48,27 @@ const resolveAiApiBaseUrl = (): string | undefined => {
 };
 
 export const aiApiBaseUrl: string | undefined = resolveAiApiBaseUrl();
+
+const resolveTelemetryEndpoint = (): string | undefined => {
+  if (typeof process !== 'undefined' && process.env?.VITE_TELEMETRY_ENDPOINT) {
+    return process.env.VITE_TELEMETRY_ENDPOINT;
+  }
+
+  if (typeof import.meta !== 'undefined' && (import.meta as any)?.env) {
+    return (import.meta as any).env.VITE_TELEMETRY_ENDPOINT;
+  }
+
+  return undefined;
+};
+
+export interface TelemetryConfig {
+  endpoint?: string;
+  enabledByDefault: boolean;
+  sampleRate: number;
+}
+
+export const telemetryConfig: TelemetryConfig = {
+  endpoint: resolveTelemetryEndpoint(),
+  enabledByDefault: true,
+  sampleRate: 1,
+};
