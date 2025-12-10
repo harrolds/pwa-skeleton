@@ -93,3 +93,4 @@ Dit document helpt je een nieuwe module te bouwen op het v2-skelet. Een module b
 - [ ] Navigatie en UX zijn getest (route, widget, settings).
 - [ ] `npm run build` slaagt zonder errors.
 
+
