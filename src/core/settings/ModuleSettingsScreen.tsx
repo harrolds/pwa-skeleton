@@ -4,9 +4,13 @@ import { Card } from '../../shared/ui/Card';
 import { useI18n } from '../../shared/lib/i18n';
 import { getModuleById } from '../../shared/lib/modules';
 import { NotesSettings } from '../../modules/notes/NotesSettings';
+import { DreamdropDemoSettings } from '../../modules/dreamdropDemo/DreamdropDemoSettings';
+import { RiskRadarDemoSettings } from '../../modules/riskRadarDemo/RiskRadarDemoSettings';
 
 const moduleSettingsComponents: Record<string, React.FC> = {
   notes: NotesSettings,
+  dreamdropDemo: DreamdropDemoSettings,
+  riskRadarDemo: RiskRadarDemoSettings,
 };
 
 export const ModuleSettingsScreen: React.FC = () => {

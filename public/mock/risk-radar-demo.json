@@ -1,0 +1,8 @@
+[
+  { "id": "asset-1", "name": "Aurora Storage", "baseScore": 52, "volatility": 0.24 },
+  { "id": "asset-2", "name": "Nimbus Edge", "baseScore": 68, "volatility": 0.18 },
+  { "id": "asset-3", "name": "Helix Gateway", "baseScore": 44, "volatility": 0.35 },
+  { "id": "asset-4", "name": "Sentinel Compute", "baseScore": 75, "volatility": 0.12 },
+  { "id": "asset-5", "name": "Nova Streams", "baseScore": 58, "volatility": 0.28 }
+]
+
