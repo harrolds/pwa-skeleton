@@ -11,14 +11,17 @@ import { APP_BRAND } from '../config/appConfig';
 import { NotificationsHost } from '../shared/lib/notifications';
 import { OfflineScreen } from './offline/OfflineScreen';
 import { useTheme } from './theme/ThemeProvider';
+import { PanelHost } from './panels/PanelHost';
+import { PanelProvider, usePanels } from '../shared/lib/panels';
 
-export const AppShell: React.FC = () => {
+const AppShellContent: React.FC = () => {
   const location = useLocation();
   const { goTo, goBack, openNotifications, openSettings } = useNavigation();
   const { t } = useI18n();
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const theme = useTheme();
   const headerTokens = theme.components.header;
+  const { state: panelState, closePanel } = usePanels();
 
   useEffect(() => {
     const handleOnline = () => setIsOffline(false);
@@ -116,8 +119,17 @@ export const AppShell: React.FC = () => {
       <main className="app-shell__main">
         {isOffline ? <OfflineScreen onRetry={handleRetry} /> : <AppRoutes />}
       </main>
+      <PanelHost state={panelState} onClose={closePanel} />
       <NotificationsHost />
       <AppFooter />
     </div>
+  );
+};
+
+export const AppShell: React.FC = () => {
+  return (
+    <PanelProvider>
+      <AppShellContent />
+    </PanelProvider>
   );
 };

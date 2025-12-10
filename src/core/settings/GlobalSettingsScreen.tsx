@@ -4,11 +4,13 @@ import { Button } from '../../shared/ui/Button';
 import { useI18n } from '../../shared/lib/i18n';
 import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { useThemeController } from '../theme/ThemeProvider';
+import { usePanels } from '../../shared/lib/panels';
 
 export const GlobalSettingsScreen: React.FC = () => {
   const { goBack } = useNavigation();
   const { t } = useI18n();
   const { preference, resolvedMode, setPreference } = useThemeController();
+  const { openLeftPanel, openBottomSheet } = usePanels();
 
   const themeOptions: Array<{ value: 'system' | 'light' | 'dark'; label: string }> = [
     { value: 'system', label: t('settings.theme.system') },
@@ -25,6 +27,12 @@ export const GlobalSettingsScreen: React.FC = () => {
             <p className="settings-layout__description">{t('settings.global.description')}</p>
           </div>
           <div className="settings-actions">
+            <Button type="button" onClick={() => openLeftPanel('demo-settings')}>
+              Open demo panel
+            </Button>
+            <Button type="button" variant="secondary" onClick={() => openBottomSheet('demo-settings')}>
+              Open demo sheet
+            </Button>
             <Button type="button" variant="secondary" onClick={goBack}>
               {t('settings.back')}
             </Button>

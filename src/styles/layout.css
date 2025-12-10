@@ -320,3 +320,118 @@ body {
     opacity: 1;
   }
 }
+
+/* PANELS */
+.panel-host {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.panel-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  opacity: 0;
+  transition: opacity 200ms ease;
+  pointer-events: none;
+}
+
+.panel-overlay--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.panel-surface {
+  position: fixed;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-md);
+  transition: transform 240ms ease, opacity 240ms ease;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  pointer-events: auto;
+}
+
+.panel-surface:not(.panel-surface--open) {
+  pointer-events: none;
+}
+
+.panel-surface--open {
+  opacity: 1;
+}
+
+.panel-surface--left {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: min(420px, 88vw);
+  transform: translateX(-100%);
+}
+
+.panel-surface--left.panel-surface--open {
+  transform: translateX(0);
+}
+
+.panel-surface--right {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: min(420px, 88vw);
+  transform: translateX(100%);
+}
+
+.panel-surface--right.panel-surface--open {
+  transform: translateX(0);
+}
+
+.panel-surface--bottom {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 80vh;
+  border-radius: 16px 16px 0 0;
+  transform: translateY(100%);
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 16px));
+}
+
+.panel-surface--bottom.panel-surface--open {
+  transform: translateY(0);
+}
+
+.panel-surface__header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem 0.75rem 0 0.75rem;
+}
+
+.panel-surface__body {
+  padding: 0.75rem 1rem 1rem;
+  overflow-y: auto;
+}
+
+.panel-close-button {
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-primary);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.panel-close-button:hover {
+  background: var(--color-background);
+}
+
+.bottom-sheet__handle-bar {
+  align-self: center;
+  width: 64px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-border);
+  margin: 10px 0 0;
+}
