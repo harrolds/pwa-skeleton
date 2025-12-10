@@ -3,9 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { AppRoutes } from './router';
 import { AppFooter } from './AppFooter';
 import { useNavigation } from '../shared/lib/navigation/useNavigation';
-import { Button } from '../shared/ui/Button';
 import { useI18n } from '../shared/lib/i18n';
-import type { ScreenAction } from './screenConfig';
+import type { ScreenAction, ScreenActionClick, ScreenConfig } from './screenConfig';
 import { getScreenConfigByPath } from '../config/navigation';
 import { APP_BRAND } from '../config/appConfig';
 import { NotificationsHost } from '../shared/lib/notifications';
@@ -13,6 +12,10 @@ import { OfflineScreen } from './offline/OfflineScreen';
 import { useTheme } from './theme/ThemeProvider';
 import { PanelHost } from './panels/PanelHost';
 import { PanelProvider, usePanels } from '../shared/lib/panels';
+import { HeaderActionsBar } from './header/HeaderActionsBar';
+import { HeaderActionsMenu } from './header/HeaderActionsMenu';
+import { getModuleById } from '../shared/lib/modules';
+import { getHeaderActionHandler } from '../shared/lib/navigation/headerActionRegistry';
 
 const AppShellContent: React.FC = () => {
   const location = useLocation();
@@ -21,7 +24,50 @@ const AppShellContent: React.FC = () => {
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const theme = useTheme();
   const headerTokens = theme.components.header;
-  const { state: panelState, closePanel } = usePanels();
+  const { state: panelState, closePanel, openBottomSheet } = usePanels();
+
+  const mergeModuleActions = (config?: ScreenConfig) => {
+    if (!config?.moduleId) {
+      return config;
+    }
+
+    const moduleDef = getModuleById(config.moduleId);
+    if (!moduleDef?.headerActions) {
+      return config;
+    }
+
+    return {
+      ...config,
+      primaryActions: [
+        ...(config.primaryActions ?? []),
+        ...(moduleDef.headerActions.primaryActions ?? []),
+      ],
+      menuActions: [...(config.menuActions ?? []), ...(moduleDef.headerActions.menuActions ?? [])],
+    };
+  };
+
+  const resolveHeaderActions = (config?: ScreenConfig) => {
+    const primary: ScreenAction[] = [];
+    const menu: ScreenAction[] = [];
+
+    if (!config) {
+      return { primary, menu };
+    }
+
+    if (config.actions) {
+      primary.push(...config.actions);
+    }
+
+    if (config.primaryActions) {
+      primary.push(...config.primaryActions);
+    }
+
+    if (config.menuActions) {
+      menu.push(...config.menuActions);
+    }
+
+    return { primary, menu };
+  };
 
   useEffect(() => {
     const handleOnline = () => setIsOffline(false);
@@ -36,23 +82,42 @@ const AppShellContent: React.FC = () => {
     };
   }, []);
 
-  const screenConfig = getScreenConfigByPath(location.pathname);
+  const rawConfig = getScreenConfigByPath(location.pathname);
+  const screenConfig = mergeModuleActions(rawConfig);
   const titleKey = screenConfig?.titleKey;
   const appTitle = APP_BRAND.appName;
   const title = titleKey ? t(titleKey) : appTitle;
+  const headerActions = resolveHeaderActions(screenConfig);
+
+  const handleDeclarativeClick = (action: ScreenAction, click: ScreenActionClick): boolean => {
+    switch (click.type) {
+      case 'navigate':
+        goTo(click.target);
+        return true;
+      case 'panel':
+        openBottomSheet(click.panelId, click.props);
+        return true;
+      case 'custom': {
+        const handler = getHeaderActionHandler(click.handlerId);
+        handler?.(action);
+        return true;
+      }
+      default:
+        return false;
+    }
+  };
 
   const handleActionClick = (action: ScreenAction) => {
-    if (action.navigationTarget) {
-      switch (action.navigationTarget) {
-        case 'home':
-        case 'notifications':
-        case 'settings':
-          goTo(action.navigationTarget);
-          return;
-        default:
-          goTo(action.navigationTarget);
-          return;
+    if (action.onClick) {
+      const handled = handleDeclarativeClick(action, action.onClick);
+      if (handled) {
+        return;
       }
+    }
+
+    if (action.navigationTarget) {
+      goTo(action.navigationTarget);
+      return;
     }
 
     switch (action.id) {
@@ -67,19 +132,6 @@ const AppShellContent: React.FC = () => {
         return;
       default:
         return;
-    }
-  };
-
-  const getActionIcon = (action: ScreenAction): string => {
-    switch (action.icon) {
-      case 'notifications':
-        return '🔔';
-      case 'settings':
-        return '⚙️';
-      case 'back':
-        return '←';
-      default:
-        return '⋯';
     }
   };
 
@@ -102,18 +154,8 @@ const AppShellContent: React.FC = () => {
           <span className="app-shell__title">{title}</span>
         </div>
         <div className="app-shell__header-right">
-          {screenConfig?.actions?.map((action) => (
-            <Button
-              key={action.id}
-              type="button"
-              onClick={() => handleActionClick(action)}
-              aria-label={t(action.labelKey)}
-              className="app-shell__icon-button"
-              variant="ghost"
-            >
-              <span aria-hidden="true">{getActionIcon(action)}</span>
-            </Button>
-          ))}
+          <HeaderActionsBar actions={headerActions.primary} onAction={handleActionClick} />
+          <HeaderActionsMenu actions={headerActions.menu} onAction={handleActionClick} />
         </div>
       </header>
       <main className="app-shell__main">

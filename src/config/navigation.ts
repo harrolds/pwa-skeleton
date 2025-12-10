@@ -8,6 +8,18 @@ export const screenConfigs: ScreenConfig[] = [
     id: 'home',
     route: '/',
     titleKey: 'home.title',
+    menuActions: [
+      {
+        id: 'home-demo-panel',
+        labelKey: 'home.header.menu.demoPanel',
+        onClick: { type: 'panel', panelId: 'notes-header-actions-demo', props: { from: 'home' } },
+      },
+      {
+        id: 'home-demo-custom',
+        labelKey: 'home.header.menu.customAction',
+        onClick: { type: 'custom', handlerId: 'notes:log-action' },
+      },
+    ],
     actions: [
       {
         id: 'openNotifications',
@@ -53,6 +65,7 @@ export const screenConfigs: ScreenConfig[] = [
     id: 'notes',
     route: '/notes',
     titleKey: 'home.module.notes.title',
+    moduleId: 'notes',
   },
 ];
 
