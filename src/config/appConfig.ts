@@ -34,3 +34,17 @@ export const APP_BRAND: AppBranding = {
   primaryColor: '#2563eb',
   logoPath: '/icons/pwa-192x192.png',
 };
+
+const resolveAiApiBaseUrl = (): string | undefined => {
+  if (typeof process !== 'undefined' && process.env?.VITE_AI_API_BASE_URL) {
+    return process.env.VITE_AI_API_BASE_URL;
+  }
+
+  if (typeof import.meta !== 'undefined' && (import.meta as any)?.env) {
+    return (import.meta as any).env.VITE_AI_API_BASE_URL;
+  }
+
+  return undefined;
+};
+
+export const aiApiBaseUrl: string | undefined = resolveAiApiBaseUrl();

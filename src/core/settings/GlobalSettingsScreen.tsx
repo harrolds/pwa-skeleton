@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from '../../shared/ui/Card';
 import { Button } from '../../shared/ui/Button';
 import { useI18n } from '../../shared/lib/i18n';
@@ -6,6 +6,7 @@ import { useNavigation } from '../../shared/lib/navigation/useNavigation';
 import { useThemeController } from '../theme/ThemeProvider';
 import { usePanels } from '../../shared/lib/panels';
 import { usePipeline, demoPipeline, type DemoPipelineOutput } from '../../shared/lib/pipeline';
+import { runAiTask, type AiRequest, type AiResult } from '../../shared/lib/ai';
 
 export const GlobalSettingsScreen: React.FC = () => {
   const { goBack } = useNavigation();
@@ -18,6 +19,10 @@ export const GlobalSettingsScreen: React.FC = () => {
     isRunning: isDemoRunning,
     error: demoError,
   } = usePipeline<{ refresh?: boolean }, DemoPipelineOutput>(demoPipeline);
+  const [aiInput, setAiInput] = useState('');
+  const [aiResult, setAiResult] = useState<AiResult | undefined>(undefined);
+  const [isAiRunning, setIsAiRunning] = useState(false);
+  const [aiError, setAiError] = useState<string | undefined>(undefined);
 
   const themeOptions: Array<{ value: 'system' | 'light' | 'dark'; label: string }> = [
     { value: 'system', label: t('settings.theme.system') },
@@ -108,6 +113,67 @@ export const GlobalSettingsScreen: React.FC = () => {
               <p>
                 {t('settings.pipelineDemo.resultStatus')}{' '}
                 <code>{lastDemoJob.status}</code>
+              </p>
+            </div>
+          )}
+        </section>
+
+        <section className="settings-section">
+          <h2 className="settings-section__title">{t('settings.aiDemo.title')}</h2>
+          <p className="settings-section__description">{t('settings.aiDemo.description')}</p>
+
+          <div className="settings-section__row settings-section__row--column">
+            <label className="settings-section__label" htmlFor="settings-ai-demo-input">
+              {t('settings.aiDemo.inputLabel')}
+            </label>
+            <textarea
+              id="settings-ai-demo-input"
+              className="settings-section__textarea"
+              value={aiInput}
+              onChange={(event) => setAiInput(event.target.value)}
+              rows={3}
+            />
+          </div>
+
+          <div className="settings-section__row">
+            <Button
+              type="button"
+              onClick={async () => {
+                setAiError(undefined);
+                setAiResult(undefined);
+                setIsAiRunning(true);
+                try {
+                  const request: AiRequest = {
+                    type: 'summarization',
+                    input: aiInput,
+                    options: { model: 'default' },
+                  };
+                  const result = await runAiTask(request);
+                  setAiResult(result);
+                } catch (err) {
+                  const message = err instanceof Error ? err.message : String(err);
+                  setAiError(message);
+                } finally {
+                  setIsAiRunning(false);
+                }
+              }}
+              disabled={isAiRunning || !aiInput.trim()}
+            >
+              {isAiRunning ? t('settings.aiDemo.buttonRunning') : t('settings.aiDemo.buttonLabel')}
+            </Button>
+          </div>
+
+          {aiError && (
+            <p className="settings-section__error">
+              {t('settings.aiDemo.errorPrefix')} {aiError}
+            </p>
+          )}
+
+          {aiResult && (
+            <div className="settings-section__result">
+              <p>
+                {t('settings.aiDemo.resultLabel')}{' '}
+                <strong>{aiResult.text}</strong>
               </p>
             </div>
           )}

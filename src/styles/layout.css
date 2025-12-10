@@ -298,6 +298,52 @@ body {
   gap: 1rem;
 }
 
+.settings-section__title {
+  margin: 0;
+}
+
+.settings-section__description {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.settings-section__row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.settings-section__row--column {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.settings-section__label {
+  font-weight: 600;
+}
+
+.settings-section__textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font: inherit;
+  resize: vertical;
+}
+
+.settings-section__error {
+  margin: 0;
+  color: var(--color-error);
+}
+
+.settings-section__result {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-background);
+}
+
 .settings-field {
   display: flex;
   flex-direction: column;
