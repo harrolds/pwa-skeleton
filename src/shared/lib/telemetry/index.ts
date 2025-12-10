@@ -1,4 +1,4 @@
-import { telemetryConfig } from '../../../config/appConfig';
+import { telemetryConfig } from '../../../config/runtimeEnv';
 import { getValue, setValue } from '../storage';
 import { TelemetryClient } from './client';
 import { ConsoleTransport, HttpTransport } from './transports';

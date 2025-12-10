@@ -11,8 +11,8 @@ import { isTelemetryEnabled, setTelemetryEnabled as setTelemetryEnabledFlag } fr
 
 export const GlobalSettingsScreen: React.FC = () => {
   const { goBack } = useNavigation();
-  const { t } = useI18n();
-  const { preference, resolvedMode, setPreference } = useThemeController();
+  const { t, preference: languagePreference, setPreference: setLanguagePreference } = useI18n();
+  const { preference: themePreference, resolvedMode, setPreference: setThemePreference } = useThemeController();
   const { openLeftPanel, openBottomSheet } = usePanels();
   const {
     run: runDemoPipeline,
@@ -42,10 +42,10 @@ export const GlobalSettingsScreen: React.FC = () => {
           </div>
           <div className="settings-actions">
             <Button type="button" onClick={() => openLeftPanel('demo-settings')}>
-              Open demo panel
+              {t('settings.demoPanel.openPanel')}
             </Button>
             <Button type="button" variant="secondary" onClick={() => openBottomSheet('demo-settings')}>
-              Open demo sheet
+              {t('settings.demoPanel.openSheet')}
             </Button>
             <Button type="button" variant="secondary" onClick={goBack}>
               {t('settings.back')}
@@ -68,8 +68,8 @@ export const GlobalSettingsScreen: React.FC = () => {
                   type="radio"
                   name="themePreference"
                   value={option.value}
-                  checked={preference === option.value}
-                  onChange={() => setPreference(option.value)}
+                  checked={themePreference === option.value}
+                  onChange={() => setThemePreference(option.value)}
                 />
                 <span>{option.label}</span>
               </label>
@@ -82,6 +82,48 @@ export const GlobalSettingsScreen: React.FC = () => {
                 resolvedMode === 'dark' ? t('settings.theme.dark') : t('settings.theme.light'),
             })}
           </p>
+        </div>
+      </Card>
+
+      <Card>
+        <div className="settings-section">
+          <div className="settings-field">
+            <h3 className="settings-layout__section-title">{t('settings.language.title')}</h3>
+            <p className="settings-layout__description">{t('settings.language.description')}</p>
+          </div>
+
+          <div className="settings-field" role="radiogroup" aria-label={t('settings.language.title')}>
+            <label className="settings-radio">
+              <input
+                type="radio"
+                name="languagePreference"
+                value="system"
+                checked={languagePreference === 'system'}
+                onChange={() => setLanguagePreference('system')}
+              />
+              <span>{t('settings.language.system')}</span>
+            </label>
+            <label className="settings-radio">
+              <input
+                type="radio"
+                name="languagePreference"
+                value="de"
+                checked={languagePreference === 'de'}
+                onChange={() => setLanguagePreference('de')}
+              />
+              <span>{t('settings.language.de')}</span>
+            </label>
+            <label className="settings-radio">
+              <input
+                type="radio"
+                name="languagePreference"
+                value="en"
+                checked={languagePreference === 'en'}
+                onChange={() => setLanguagePreference('en')}
+              />
+              <span>{t('settings.language.en')}</span>
+            </label>
+          </div>
         </div>
       </Card>
 

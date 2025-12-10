@@ -35,40 +35,14 @@ export const APP_BRAND: AppBranding = {
   logoPath: '/icons/pwa-192x192.png',
 };
 
-const resolveAiApiBaseUrl = (): string | undefined => {
-  if (typeof process !== 'undefined' && process.env?.VITE_AI_API_BASE_URL) {
-    return process.env.VITE_AI_API_BASE_URL;
-  }
-
-  if (typeof import.meta !== 'undefined' && (import.meta as any)?.env) {
-    return (import.meta as any).env.VITE_AI_API_BASE_URL;
-  }
-
-  return undefined;
-};
-
-export const aiApiBaseUrl: string | undefined = resolveAiApiBaseUrl();
-
-const resolveTelemetryEndpoint = (): string | undefined => {
-  if (typeof process !== 'undefined' && process.env?.VITE_TELEMETRY_ENDPOINT) {
-    return process.env.VITE_TELEMETRY_ENDPOINT;
-  }
-
-  if (typeof import.meta !== 'undefined' && (import.meta as any)?.env) {
-    return (import.meta as any).env.VITE_TELEMETRY_ENDPOINT;
-  }
-
-  return undefined;
-};
-
 export interface TelemetryConfig {
   endpoint?: string;
   enabledByDefault: boolean;
   sampleRate: number;
 }
 
-export const telemetryConfig: TelemetryConfig = {
-  endpoint: resolveTelemetryEndpoint(),
+export const DEFAULT_TELEMETRY_CONFIG: TelemetryConfig = {
+  endpoint: undefined,
   enabledByDefault: true,
   sampleRate: 1,
 };

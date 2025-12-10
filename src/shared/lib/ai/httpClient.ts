@@ -1,4 +1,4 @@
-import { aiApiBaseUrl } from '../../../config/appConfig';
+import { aiApiBaseUrl } from '../../../config/runtimeEnv';
 import { trackEvent } from '../telemetry';
 import type { AiClient, AiRequest, AiResult } from './types';
 

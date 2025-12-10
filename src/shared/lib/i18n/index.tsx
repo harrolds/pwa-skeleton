@@ -1,42 +1,84 @@
 import React, { createContext, useContext, useMemo, useState } from 'react';
 import de from '../../../locales/de.json';
+import en from '../../../locales/en.json';
+import { getValue, setValue } from '../storage';
 
-type Locale = 'de';
+type Locale = 'de' | 'en';
+
+type LanguagePreference = 'system' | Locale;
 
 type Messages = Record<string, string>;
 
 interface I18nContextValue {
   locale: Locale;
+  preference: LanguagePreference;
   t: (key: string) => string;
   setLocale: (locale: Locale) => void;
+  setPreference: (preference: LanguagePreference) => void;
 }
 
 const I18nContext = createContext<I18nContextValue | undefined>(undefined);
 
 const messagesByLocale: Record<Locale, Messages> = {
   de,
+  en,
 };
 
-export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [locale, setLocale] = useState<Locale>('de');
+const LANGUAGE_PREFERENCE_STORAGE_KEY = 'language-preference';
 
-  const value = useMemo(() => {
+const getInitialPreference = (): LanguagePreference => {
+  const stored = getValue<LanguagePreference | null>(LANGUAGE_PREFERENCE_STORAGE_KEY, null);
+  if (stored === 'system' || stored === 'de' || stored === 'en') {
+    return stored;
+  }
+  return 'system';
+};
+
+const resolveEffectiveLocale = (preference: LanguagePreference): Locale => {
+  if (preference === 'system') {
+    if (typeof navigator !== 'undefined') {
+      const languages = navigator.languages && navigator.languages.length > 0 ? navigator.languages : [navigator.language];
+      for (const lang of languages) {
+        if (!lang) continue;
+        const code = lang.toLowerCase().slice(0, 2) as Locale | string;
+        if (code === 'de' || code === 'en') {
+          return code;
+        }
+      }
+    }
+    return 'de';
+  }
+  return preference;
+};
+
+export const I18nProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const [preference, setPreferenceState] = useState<LanguagePreference>(getInitialPreference);
+  const locale = useMemo(() => resolveEffectiveLocale(preference), [preference]);
+
+  const value = useMemo<I18nContextValue>(() => {
     const messages = messagesByLocale[locale] ?? messagesByLocale.de;
 
-    const translate = (key: string): string => {
-      const message = messages[key];
-      if (typeof message === 'string') {
-        return message;
-      }
-      return key;
+    const t = (key: string): string => {
+      return messages[key] ?? key;
+    };
+
+    const setPreference = (next: LanguagePreference): void => {
+      setPreferenceState(next);
+      setValue<LanguagePreference>(LANGUAGE_PREFERENCE_STORAGE_KEY, next);
+    };
+
+    const setLocale = (nextLocale: Locale): void => {
+      setPreference(nextLocale);
     };
 
     return {
       locale,
-      t: translate,
+      preference,
+      t,
       setLocale,
+      setPreference,
     };
-  }, [locale]);
+  }, [locale, preference]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 };
