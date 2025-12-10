@@ -4,6 +4,7 @@ import { AppShell } from './AppShell';
 import { AppErrorBoundary } from './AppErrorBoundary';
 import { I18nProvider, useI18n } from '../shared/lib/i18n';
 import { NotificationsProvider } from '../shared/lib/notifications';
+import { ThemeProvider } from './theme/ThemeProvider';
 import '../styles/layout.css';
 
 
@@ -69,20 +70,24 @@ export const AppRoot: React.FC = () => {
   if (isDesktopBlocked) {
     return (
       <I18nProvider>
-        <DesktopBlockScreen />
+        <ThemeProvider>
+          <DesktopBlockScreen />
+        </ThemeProvider>
       </I18nProvider>
     );
   }
 
   return (
     <I18nProvider>
-      <BrowserRouter>
-        <NotificationsProvider>
-          <AppErrorBoundary>
-            <AppShell />
-          </AppErrorBoundary>
-        </NotificationsProvider>
-      </BrowserRouter>
+      <ThemeProvider>
+        <BrowserRouter>
+          <NotificationsProvider>
+            <AppErrorBoundary>
+              <AppShell />
+            </AppErrorBoundary>
+          </NotificationsProvider>
+        </BrowserRouter>
+      </ThemeProvider>
     </I18nProvider>
   );
 };

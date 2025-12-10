@@ -1,6 +1,6 @@
 import React from 'react';
 import type { CSSProperties, ButtonHTMLAttributes } from 'react';
-import { useTheme } from '../../core/theme/tokens';
+import { useTheme } from '../../core/theme/ThemeProvider';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 
@@ -17,23 +17,10 @@ export const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const theme = useTheme();
-  const { colors, radius, spacing, typography, shadow } = theme;
+  const { spacing, radii, typography, shadows, components } = theme;
+  const buttonTokens = components.button;
 
-  let backgroundColor = colors.primary;
-  let color = '#ffffff';
-  let borderColor = colors.primary;
-
-  if (variant === 'secondary') {
-    backgroundColor = colors.surface;
-    color = colors.text;
-    borderColor = colors.border;
-  }
-
-  if (variant === 'ghost') {
-    backgroundColor = 'transparent';
-    color = colors.text;
-    borderColor = 'transparent';
-  }
+  const variantTokens = buttonTokens[variant] ?? buttonTokens.primary;
 
   const baseStyle: CSSProperties = {
     display: 'inline-flex',
@@ -41,19 +28,19 @@ export const Button: React.FC<ButtonProps> = ({
     justifyContent: 'center',
     gap: spacing.xs,
     padding: `${spacing.sm} ${spacing.md}`,
-    borderRadius: radius.md,
+    borderRadius: radii.md,
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor,
-    backgroundColor,
-    color,
+    borderColor: variantTokens.border,
+    backgroundColor: variantTokens.background,
+    color: variantTokens.text,
     fontFamily: typography.fontFamily,
-    fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.medium,
-    lineHeight: typography.lineHeight.snug,
+    fontSize: typography.fontSizes.sm,
+    fontWeight: typography.fontWeights.medium,
+    lineHeight: typography.lineHeights.snug,
     cursor: 'pointer',
     width: fullWidth ? '100%' : undefined,
-    boxShadow: variant === 'ghost' ? 'none' : shadow.sm,
+    boxShadow: variant === 'ghost' ? 'none' : variantTokens.shadow ?? shadows.sm,
     transition:
       'background-color 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, transform 0.1s ease',
   };
@@ -65,7 +52,8 @@ export const Button: React.FC<ButtonProps> = ({
     ...(isPressed
       ? {
           transform: 'translateY(1px)',
-          boxShadow: variant === 'ghost' ? 'none' : shadow.md,
+          backgroundColor: variantTokens.activeBackground ?? variantTokens.background,
+          boxShadow: variant === 'ghost' ? 'none' : variantTokens.activeShadow ?? shadows.md,
         }
       : null),
     ...style,

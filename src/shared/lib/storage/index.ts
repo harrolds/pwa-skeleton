@@ -21,6 +21,36 @@ const isStorageAvailable = (): boolean => {
 
 const storageAvailable = isStorageAvailable();
 
+export const getValue = <T = unknown>(key: string, fallback?: T): T | undefined => {
+  if (!storageAvailable) {
+    return fallback;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(getStorageKey(key));
+    if (raw === null || raw === undefined) {
+      return fallback;
+    }
+
+    return JSON.parse(raw) as T;
+  } catch {
+    return fallback;
+  }
+};
+
+export const setValue = <T = unknown>(key: string, value: T): void => {
+  if (!storageAvailable) {
+    return;
+  }
+
+  try {
+    const serialized = JSON.stringify(value);
+    window.localStorage.setItem(getStorageKey(key), serialized);
+  } catch {
+    // noop
+  }
+};
+
 export const getItems = <T = unknown>(key: string): T[] => {
   if (!storageAvailable) {
     return [];

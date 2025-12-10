@@ -1,6 +1,6 @@
 import React from 'react';
 import type { CSSProperties, HTMLAttributes } from 'react';
-import { useTheme } from '../../core/theme/tokens';
+import { useTheme } from '../../core/theme/ThemeProvider';
 
 type BadgeVariant = 'default' | 'accent' | 'outline';
 
@@ -10,15 +10,15 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 
 export const Badge: React.FC<BadgeProps> = ({ variant = 'default', style, children, ...rest }) => {
   const theme = useTheme();
-  const { colors, radius, spacing, typography } = theme;
+  const { colors, radii, spacing, typography, mode } = theme;
 
-  let backgroundColor: CSSProperties['backgroundColor'] = colors.background;
+  let backgroundColor: CSSProperties['backgroundColor'] = colors.surface;
   let borderColor: CSSProperties['borderColor'] = 'transparent';
-  let color: CSSProperties['color'] = colors.text;
+  let color: CSSProperties['color'] = colors.textPrimary;
 
   if (variant === 'accent') {
-    backgroundColor = colors.accent;
-    color = '#ffffff';
+    backgroundColor = colors.accent ?? colors.primary;
+    color = mode === 'dark' ? '#0b1220' : '#ffffff';
   }
 
   if (variant === 'outline') {
@@ -31,16 +31,16 @@ export const Badge: React.FC<BadgeProps> = ({ variant = 'default', style, childr
     alignItems: 'center',
     justifyContent: 'center',
     padding: `${spacing.xs} ${spacing.sm}`,
-    borderRadius: radius.pill,
+    borderRadius: radii.pill,
     backgroundColor,
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor,
     color,
     fontFamily: typography.fontFamily,
-    fontSize: typography.fontSize.xs,
-    fontWeight: typography.fontWeight.medium,
-    lineHeight: typography.lineHeight.normal,
+    fontSize: typography.fontSizes.xs,
+    fontWeight: typography.fontWeights.medium,
+    lineHeight: typography.lineHeights.normal,
     whiteSpace: 'nowrap',
   };
 

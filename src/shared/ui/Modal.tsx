@@ -1,6 +1,6 @@
 import React from 'react';
 import type { CSSProperties, ReactNode } from 'react';
-import { useTheme } from '../../core/theme/tokens';
+import { useTheme } from '../../core/theme/ThemeProvider';
 import { Button } from './Button';
 import { useI18n } from '../lib/i18n';
 
@@ -13,8 +13,9 @@ export interface ModalProps {
 
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
   const theme = useTheme();
-  const { colors, radius, spacing, shadow, typography } = theme;
+  const { colors, radii, spacing, shadows, typography, components } = theme;
   const { t } = useI18n();
+  const { card } = components;
 
   if (!isOpen) {
     return null;
@@ -23,7 +24,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
   const overlayStyle: CSSProperties = {
     position: 'fixed',
     inset: 0,
-    backgroundColor: 'rgba(15, 23, 42, 0.45)',
+    backgroundColor: colors.overlay ?? 'rgba(15, 23, 42, 0.45)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -34,18 +35,19 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
   const containerStyle: CSSProperties = {
     width: '100%',
     maxWidth: '28rem',
-    backgroundColor: colors.surface,
-    borderRadius: radius.md,
-    boxShadow: shadow.md,
+    backgroundColor: card.background,
+    borderRadius: radii.md,
+    boxShadow: card.shadow ?? shadows.md,
     padding: spacing.lg,
+    border: `1px solid ${card.border}`,
   };
 
   const titleStyle: CSSProperties = {
     marginBottom: spacing.md,
     fontFamily: typography.fontFamily,
-    fontSize: typography.fontSize.lg,
-    fontWeight: typography.fontWeight.semibold,
-    color: colors.text,
+    fontSize: typography.fontSizes.lg,
+    fontWeight: typography.fontWeights.semibold,
+    color: colors.textPrimary,
   };
 
   return (

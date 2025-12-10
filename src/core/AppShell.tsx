@@ -10,12 +10,15 @@ import { getScreenConfigByPath } from '../config/navigation';
 import { APP_BRAND } from '../config/appConfig';
 import { NotificationsHost } from '../shared/lib/notifications';
 import { OfflineScreen } from './offline/OfflineScreen';
+import { useTheme } from './theme/ThemeProvider';
 
 export const AppShell: React.FC = () => {
   const location = useLocation();
   const { goTo, goBack, openNotifications, openSettings } = useNavigation();
   const { t } = useI18n();
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const theme = useTheme();
+  const headerTokens = theme.components.header;
 
   useEffect(() => {
     const handleOnline = () => setIsOffline(false);
@@ -83,7 +86,14 @@ export const AppShell: React.FC = () => {
 
   return (
     <div className="app-shell">
-      <header className="app-shell__header">
+      <header
+        className="app-shell__header"
+        style={{
+          backgroundColor: headerTokens.background,
+          borderBottom: `1px solid ${headerTokens.border}`,
+          color: headerTokens.text,
+        }}
+      >
         <div className="app-shell__header-left" aria-hidden="true" />
         <div className="app-shell__header-center">
           <span className="app-shell__title">{title}</span>

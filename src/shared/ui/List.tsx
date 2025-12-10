@@ -1,6 +1,6 @@
 import React from 'react';
 import type { CSSProperties, HTMLAttributes, LiHTMLAttributes } from 'react';
-import { useTheme } from '../../core/theme/tokens';
+import { useTheme } from '../../core/theme/ThemeProvider';
 
 export interface ListProps extends HTMLAttributes<HTMLUListElement> {}
 
