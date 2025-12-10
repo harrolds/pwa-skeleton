@@ -1,5 +1,7 @@
 # Getting started with a new PWA (Skeleton v2)
 
+> LET OP: Voor Skeleton V3 gebruik je bij voorkeur `docs/GettingStartedNewPWA_V3.md`.
+
 Deze gids laat zien hoe je van dit skelet naar je eigen PWA gaat.
 
 ## 1. Vereisten

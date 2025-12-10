@@ -1,5 +1,7 @@
 # Module Author Guide – PWA Skeleton v2
 
+> LET OP: Voor nieuwe modules in Skeleton V3 gebruik je `MODULE_AUTHOR_GUIDE_V3.md`.
+
 Dit document helpt je een nieuwe module te bouwen op het v2-skelet. Een module bestaat minimaal uit één scherm (`component`) en kan optioneel een home-widget en eigen settings hebben.
 
 ## Module-architectuur in het kort
